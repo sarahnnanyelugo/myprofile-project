@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Portfolio</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+    <div id="all-contents"><div id="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#profile">Profile</a></li>
+            <li><a href="#my-projects">My Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+    <div>
+       <center><h1>Feel free to contact me!</h1></center>
+        
+            <div class="form-container">
+            <form >
+                <label for="fname">First name:</label><br>
+                <input type="text" id="fname" name="fname" placeholder="John"><br>
+                <label for="lname">Last name:</label><br>
+                <input type="text" id="lname" name="lname" placeholder="Doe"><br>
+                <br> 
+                <label for="tel">Telephone:</label><br>
+                <input type="phone" id="tel" name="tel" placeholder="123-456-7890"><br>
+               
+                <label for="message">Message:</label><br>
+                <textarea placeholder="Your message here..."></textarea><br>
+
+
+                <button type="submit" onclick="submitForm()">Submit</button>
+            </form>
+            </div>
+       
+    </div>
+    <footer>
+        <center>
+            <p>Built From Scratch With
+    
+                <span style="font-size:30px; color:red">&hearts; Love</span> © Copyright 2025, Sarah.Nnanyelugo All Rights
+                Reserved.
+            </p>
+        </center>
+    </footer>
+</div>
+    <script>
+        function submitForm() {
+            alert("Form submitted successfully!");
+        }
+    </script>
+</body>
+</html>
