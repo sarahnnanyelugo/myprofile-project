@@ -16,24 +16,32 @@
             <li><a href="contact.html">Contact</a></li>
         </ul>
     </div>
-    <div>
+    <div id="form-body">
        <center><h1>Feel free to contact me!</h1></center>
         
             <div class="form-container">
-            <form >
+            <form id="myForm" novalidate>
                 <label for="fname">First name:</label><br>
-                <input type="text" id="fname" name="fname" placeholder="John"><br>
+                <input type="text" id="fname" name="fname" placeholder="John" >
+                <span class="error" id="fnameError"></span><br />
+
                 <label for="lname">Last name:</label><br>
-                <input type="text" id="lname" name="lname" placeholder="Doe"><br>
-                <br> 
-                <label for="tel">Telephone:</label><br>
-                <input type="phone" id="tel" name="tel" placeholder="123-456-7890"><br>
+                <input type="text" id="lname" name="lname" placeholder="Doe" ><span class="error" id="lnameError"></span><br />
+
+                
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" placeholder="john.doe@example.com"><span class="error" id="emailError"></span><br>
+               <label for="tel">Telephone:</label><br>
+                <input type="tel" id="tel" name="tel" placeholder="123-456-7890" required><span class="error" id="telError"></span><br />
+
                
                 <label for="message">Message:</label><br>
-                <textarea placeholder="Your message here..."></textarea><br>
+                <textarea placeholder="Your message here..." id="message"  minlength="10"></textarea>
+                <span class="error" id="messageError"></span><br />
 
 
-                <button type="submit" onclick="submitForm()">Submit</button>
+
+                <button type="submit" >Submit</button>
             </form>
             </div>
        
@@ -48,10 +56,73 @@
         </center>
     </footer>
 </div>
-    <script>
-        function submitForm() {
-            alert("Form submitted successfully!");
+<script>
+    const form = document.getElementById("myForm");
+
+    function validateField(id, errorId, test, message) {
+        const field = document.getElementById(id);
+        const value = field.value.trim();
+        const errorElement = document.getElementById(errorId);
+
+        if (!test(value)) {
+            errorElement.textContent = message;
+            field.classList.remove("valid");
+            field.classList.add("invalid");
+            return false;
+        } else {
+            errorElement.textContent = "";
+            field.classList.remove("invalid");
+            field.classList.add("valid");
+            return true;
         }
-    </script>
+    }
+
+    // attach live validation
+    document.getElementById("fname").addEventListener("input", () => {
+        validateField("fname", "fnameError", v => v !== "", "First name is required.");
+    });
+
+    document.getElementById("lname").addEventListener("input", () => {
+        validateField("lname", "lnameError", v => v !== "", "Last name is required.");
+    });
+
+    document.getElementById("email").addEventListener("input", () => {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        validateField("email", "emailError", v => emailPattern.test(v), "Enter a valid email address.");
+    });
+
+    document.getElementById("tel").addEventListener("input", () => {
+        const phonePattern = /^[0-9+\-() ]{9,20}$/;
+        validateField("tel", "telError", v => phonePattern.test(v), "Enter a valid phone number.");
+    });
+
+    document.getElementById("message").addEventListener("input", () => {
+        validateField("message", "messageError", v => v.replace(/\s/g, "").length >= 10, "Message must be at least 10 characters.");
+    });
+
+    // on form submit
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        let valid =
+            validateField("fname", "fnameError", v => v !== "", "First name is required.") &
+            validateField("lname", "lnameError", v => v !== "", "Last name is required.") &
+            validateField("email", "emailError", v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v), "Enter a valid email address.") &
+            validateField("tel", "telError", v => /^[0-9+\-() ]{9,20}$/.test(v), "Enter a valid phone number.") &
+            validateField("message", "messageError", v => v.replace(/\s/g, "").length >= 10, "Message must be at least 10 characters.");
+
+        if (valid) {
+            alert("Form submitted successfully 🎉");
+            form.reset();
+
+            // reset styles after clearing
+            document.querySelectorAll("input, textarea").forEach(f => {
+                f.classList.remove("valid", "invalid");
+            });
+        }
+    });
+</script>
+
+
 </body>
 </html>
